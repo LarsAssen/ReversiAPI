@@ -15,6 +15,21 @@ namespace ReversiRestApi.Spel
 		public Kleur[,] Bord { get; set; }
 		public Kleur AandeBeurt { get; set; }
 
+		public Spel()
+		{
+			Bord = new Kleur[8, 8];
+			for(int i = 0; i < 8; i++)
+			{
+				for(int j = 0; j < 8; j++)
+				{
+					Bord[i, j] = Kleur.Geen;
+				}
+			}
+			Bord[3, 3] = Kleur.Wit;
+			Bord[4, 4] = Kleur.Wit;
+			Bord[3, 4] = Kleur.Zwart;
+			Bord[4, 3] = Kleur.Zwart;
+		}
 		public bool Afgelopen()
 		{
 			return false;
@@ -22,6 +37,19 @@ namespace ReversiRestApi.Spel
 
 		public bool DoeZet(int rijZet, int kolomZet)
 		{
+			if(rijZet > 7 || kolomZet > 7)
+			{
+				return false;
+			}
+			if(AandeBeurt == Kleur.Wit)
+			{
+
+			}
+			if(AandeBeurt == Kleur.Zwart)
+			{
+
+			}
+
 			return true;
 		}
 
