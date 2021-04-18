@@ -55,7 +55,35 @@ namespace ReversiRestApi.Spel
 
 		public Kleur OverwegendeKleur()
 		{
-			return Kleur.Zwart;
+			int witCounter = 0;
+			int zwartCounter = 0;
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if(Bord[i, j] == Kleur.Wit)
+					{
+						witCounter++;
+					}
+					if(Bord[i, j] == Kleur.Zwart)
+					{
+						zwartCounter++;
+					}
+				}
+			}
+
+			if(witCounter > zwartCounter)
+			{
+				return Kleur.Wit;
+			}
+			if(zwartCounter > witCounter)
+			{
+				return Kleur.Zwart;
+			}
+			else
+			{
+				return Kleur.Geen;
+			}
 		}
 
 		public bool Pas()
