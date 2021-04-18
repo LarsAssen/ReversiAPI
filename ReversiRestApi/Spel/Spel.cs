@@ -100,7 +100,41 @@ namespace ReversiRestApi.Spel
 
 		public bool ZetMogelijk(int rijZet, int kolomZet)
 		{
+			List <Direction> directions = getDirections(rijZet, kolomZet);
+			if(AandeBeurt == Kleur.Zwart)
+			{
+				foreach(Direction direction in directions)
+				{
+				}
+			}
+			if(AandeBeurt == Kleur.Wit)
+			{
+
+			}
 			return true;
+		}
+
+		public List<Direction> getDirections(int row, int column)
+		{
+			List<Direction> directionList = new List<Direction>();
+			Direction North = new Direction(row - 1, column);
+			Direction NorthEast = new Direction(row - 1, column + 1);
+			Direction NorthWest = new Direction(row - 1, column - 1);
+			Direction East = new Direction(row, column + 1);
+			Direction SouthEast = new Direction(row + 1, column + 1);
+			Direction South = new Direction(row + 1, column);
+			Direction SouthWest = new Direction(row + 1, column -1);
+			Direction West = new Direction(row, column -1);
+			
+			directionList.Add(North);
+			directionList.Add(NorthEast);
+			directionList.Add(NorthWest);
+			directionList.Add(East);
+			directionList.Add(SouthEast);
+			directionList.Add(South);
+			directionList.Add(SouthWest);
+			directionList.Add(West);
+			return directionList;
 		}
 	}
 }
