@@ -105,6 +105,10 @@ namespace ReversiRestApi.Spel
 			{
 				foreach(Direction direction in directions)
 				{
+					if (Bord[direction._row, direction._column] == Kleur.Wit)
+					{
+
+					}
 				}
 			}
 			if(AandeBeurt == Kleur.Wit)
@@ -112,6 +116,18 @@ namespace ReversiRestApi.Spel
 
 			}
 			return true;
+		}
+
+		//turn this into bool??
+		public void TraverseDirection(int row, int column, Direction direction, Kleur kleur)
+		{
+			while(Bord[row + direction._row, column + direction._column] != kleur && Bord[row + direction._row, column + direction._column] != Kleur.Geen)
+			{
+				if(Bord[row, column] == kleur)
+				{
+					return;
+				}
+			}
 		}
 
 		public List<Direction> getDirections(int row, int column)
