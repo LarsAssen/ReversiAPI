@@ -98,27 +98,68 @@ namespace ReversiRestApi.Spel
 			return true;
 		}
 
+
+		//function is veel te lang. splits het verder op in andere function om het duidelijker en overzichtelijker te maken
 		public bool ZetMogelijk(int rijZet, int kolomZet)
 		{
 			List <Direction> directions = getDirections(rijZet, kolomZet);
 			if(AandeBeurt == Kleur.Zwart)
 			{
+				int wit = 0;
 				foreach(Direction direction in directions)
 				{
-					if (Bord[direction._row, direction._column] == Kleur.Wit)
+					//check of de richting buiten de bord valt
+					if(rijZet + direction._row < 0 || rijZet + direction._row > 7)
 					{
-
+						continue;
 					}
+					//check of de richting buiten de bord valt
+					if (kolomZet + direction._column < 0 || kolomZet + direction._column > 7)
+					{
+						continue;
+					}
+
+					//check of er witte stenen om de zwate zet zijn
+					if (Bord[rijZet + direction._row, kolomZet + direction._column] == Kleur.Wit)
+					{
+						wit++;
+					}
+				}
+				//als er geen witte stenen om de zet zijn
+				if(wit == 0)
+				{
+					return false;
 				}
 			}
 			if(AandeBeurt == Kleur.Wit)
 			{
+				int zwart = 0;
+				foreach (Direction direction in directions)
+				{
+					if (rijZet + direction._row < 0 || rijZet + direction._row > 7)
+					{
+						continue;
+					}
 
+					if (kolomZet + direction._column < 0 || kolomZet + direction._column > 7)
+					{
+						continue;
+					}
+					if (Bord[rijZet + direction._row, kolomZet + direction._column] == Kleur.Zwart)
+					{
+						zwart++;
+					}
+				}
+				//als er geen zwarte stenen om de zet zijn
+				if (zwart == 0)
+				{
+					return false;
+				}
 			}
 			return true;
 		}
 
-		//turn this into bool??
+
 		public void TraverseDirection(int row, int column, Direction direction, Kleur kleur)
 		{
 			while(Bord[row + direction._row, column + direction._column] != kleur && Bord[row + direction._row, column + direction._column] != Kleur.Geen)
