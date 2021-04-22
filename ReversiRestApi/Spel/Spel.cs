@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,20 +38,11 @@ namespace ReversiRestApi.Spel
 
 		public bool DoeZet(int rijZet, int kolomZet)
 		{
-			if(rijZet > 7 || kolomZet > 7)
+			if(ZetMogelijk(rijZet, kolomZet))
 			{
-				return false;
+				return true;
 			}
-			if(AandeBeurt == Kleur.Wit)
-			{
-
-			}
-			if(AandeBeurt == Kleur.Zwart)
-			{
-
-			}
-
-			return true;
+			return false;
 		}
 
 		public Kleur OverwegendeKleur()
@@ -102,96 +94,95 @@ namespace ReversiRestApi.Spel
 		//function is veel te lang. splits het verder op in andere function om het duidelijker en overzichtelijker te maken
 		public bool ZetMogelijk(int rijZet, int kolomZet)
 		{
-			List <Direction> directions = getDirections(rijZet, kolomZet);
-			if(AandeBeurt == Kleur.Zwart)
+			if (rijZet > 7 || kolomZet > 7 || rijZet < 0 || kolomZet < 0)
 			{
-				int wit = 0;
-				foreach(Direction direction in directions)
-				{
-					//check of de richting buiten de bord valt
-					if(rijZet + direction._row < 0 || rijZet + direction._row > 7)
-					{
-						continue;
-					}
-					//check of de richting buiten de bord valt
-					if (kolomZet + direction._column < 0 || kolomZet + direction._column > 7)
-					{
-						continue;
-					}
+				return false;
+			}
+			else
+			{
+				ArrayList zetRichtingen = new ArrayList();
 
-					//check of er witte stenen om de zwate zet zijn
-					if (Bord[rijZet + direction._row, kolomZet + direction._column] == Kleur.Wit)
-					{
-						wit++;
-					}
+
+
+				foreach (string s in richtingen)
+				{
+					zetRichtingen.Add(CheckRichting(rijZet, kolomZet, Array.IndexOf(richtingen, s), false));
 				}
-				//als er geen witte stenen om de zet zijn
-				if(wit == 0)
+
+
+
+				if (zetRichtingen.Contains(true))
+				{
+					return true;
+				}
+				else
 				{
 					return false;
 				}
 			}
-			if(AandeBeurt == Kleur.Wit)
-			{
-				int zwart = 0;
-				foreach (Direction direction in directions)
-				{
-					if (rijZet + direction._row < 0 || rijZet + direction._row > 7)
-					{
-						continue;
-					}
 
-					if (kolomZet + direction._column < 0 || kolomZet + direction._column > 7)
-					{
-						continue;
-					}
-					if (Bord[rijZet + direction._row, kolomZet + direction._column] == Kleur.Zwart)
-					{
-						zwart++;
-					}
-				}
-				//als er geen zwarte stenen om de zet zijn
-				if (zwart == 0)
-				{
-					return false;
-				}
-			}
-			return true;
 		}
 
-
-		public void TraverseDirection(int row, int column, Direction direction, Kleur kleur)
+		private bool CheckRichting(int rijZet, int kolomZet, int richting, bool line)
 		{
-			while(Bord[row + direction._row, column + direction._column] != kleur && Bord[row + direction._row, column + direction._column] != Kleur.Geen)
+			if (richting == 4)
 			{
-				if(Bord[row, column] == kleur)
-				{
-					return;
-				}
+				return false;
+			}
+
+
+
+			int rij = rijZet;
+			int kolom = kolomZet;
+
+
+
+			if (rijZet == 7 && richting > 5 || rijZet == 0 && richting < 3)
+			{
+				return false;
+			}
+			else if (richting > 5)
+			{
+				rij++;
+			}
+			else if (richting < 3)
+			{
+				rij--;
+			}
+
+
+
+			kolom += (richting % 3) - 1;
+
+
+
+			if (kolom > 7 || kolom < 0)
+			{
+				return false;
+			}
+
+
+
+			Kleur einde = Bord[rij, kolom];
+
+
+
+			if (einde == AandeBeurt && line)
+			{
+				return true;
+			}
+			else if (einde == Kleur.Geen || einde == AandeBeurt)
+			{
+				return false;
+			}
+			else
+			{
+				return CheckRichting(rij, kolom, richting, true);
 			}
 		}
 
-		public List<Direction> getDirections(int row, int column)
-		{
-			List<Direction> directionList = new List<Direction>();
-			Direction North = new Direction(row - 1, column);
-			Direction NorthEast = new Direction(row - 1, column + 1);
-			Direction NorthWest = new Direction(row - 1, column - 1);
-			Direction East = new Direction(row, column + 1);
-			Direction SouthEast = new Direction(row + 1, column + 1);
-			Direction South = new Direction(row + 1, column);
-			Direction SouthWest = new Direction(row + 1, column -1);
-			Direction West = new Direction(row, column -1);
-			
-			directionList.Add(North);
-			directionList.Add(NorthEast);
-			directionList.Add(NorthWest);
-			directionList.Add(East);
-			directionList.Add(SouthEast);
-			directionList.Add(South);
-			directionList.Add(SouthWest);
-			directionList.Add(West);
-			return directionList;
-		}
+		public string[] richtingen = { "NW", "W", "ZW", "N", "Neutraal", "Z", "NO", "O", "ZO" };
+
+		
 	}
 }
