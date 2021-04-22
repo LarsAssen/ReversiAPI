@@ -33,13 +33,36 @@ namespace ReversiRestApi.Spel
 		}
 		public bool Afgelopen()
 		{
-			return false;
+			for (int i = 0; i < 8; i++)
+			{
+				for (int j = 0; j < 8; j++)
+				{
+					if (Bord[i, j] == Kleur.Geen)
+					{
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 
 		public bool DoeZet(int rijZet, int kolomZet)
 		{
 			if(ZetMogelijk(rijZet, kolomZet))
 			{
+				bool[] zetRichtingen = new bool[8];
+				for(int i = 0; i < richtingen.Length; i++)
+				{
+					zetRichtingen[i] = (CheckRichting(rijZet, kolomZet, Array.IndexOf(richtingen, richtingen[i]), false));
+				}
+				for(int i = 0; i < zetRichtingen.Length; i++)
+				{
+					if (zetRichtingen[i] == true)
+					{
+						VeranderKleuren(rijZet, kolomZet, Array.IndexOf(richtingen, richtingen[i]));
+					}
+				}
+				Pas();
 				return true;
 			}
 			return false;
@@ -91,9 +114,9 @@ namespace ReversiRestApi.Spel
 		}
 
 
-		//function is veel te lang. splits het verder op in andere function om het duidelijker en overzichtelijker te maken
 		public bool ZetMogelijk(int rijZet, int kolomZet)
 		{
+			//if zet is buiten de bord
 			if (rijZet > 7 || kolomZet > 7 || rijZet < 0 || kolomZet < 0)
 			{
 				return false;
@@ -123,42 +146,93 @@ namespace ReversiRestApi.Spel
 
 		}
 
-		private bool CheckRichting(int rijZet, int kolomZet, int richting, bool line)
+		private void VeranderKleuren(int rijZet, int kolomZet, int richting)
 		{
-			if (richting == 4)
-			{
-				return false;
-			}
-
-
-
 			int rij = rijZet;
 			int kolom = kolomZet;
 
-
-
-			if (rijZet == 7 && richting > 5 || rijZet == 0 && richting < 3)
+			Kleur einde = Bord[rij, kolom];
+			if (einde == AandeBeurt)
 			{
-				return false;
+				return;
 			}
-			else if (richting > 5)
+			else
+			{
+				Bord[rij, kolom] = AandeBeurt;
+				Kleur k = Bord[rij, kolom];
+
+
+			//als de richting naar het oosten gaat
+			if (richting == 1 || richting == 2 || richting == 3)
 			{
 				rij++;
 			}
-			else if (richting < 3)
+			//Als de richting naar het westen gaat
+			if (richting == 5 || richting == 6 || richting == 7)
 			{
 				rij--;
 			}
+			//Als de richting naar het noorden gaat
+			if (richting == 0 || richting == 1 || richting == 7)
+			{
+				kolom--;
+			}
+			//Als de richting naar het zuiden gaat
+			if (richting == 3 || richting == 4 || richting == 5)
+			{
+				kolom++;
+			}
+				VeranderKleuren(rij, kolom, richting);
+			}
+		}
 
+		private bool CheckRichting(int rijZet, int kolomZet, int richting, bool line)
+		{
+			int rij = rijZet;
+			int kolom = kolomZet;
 
-
-			kolom += (richting % 3) - 1;
-
-
-
-			if (kolom > 7 || kolom < 0)
+			//check of de zet buiten de bord plaatsvind
+			if(rij > 7 || rij < 0 || kolom > 7 || rij < 0)
 			{
 				return false;
+			}
+
+			//als de richting naar het oosten gaat
+			if(richting == 1 || richting == 2 || richting == 3)
+			{
+				if(rij == 7)
+				{
+					return false;
+				}
+				rij++;
+			}
+			//Als de richting naar het westen gaat
+			if(richting == 5 || richting == 6 || richting == 7)
+			{
+				if(rij == 0)
+				{
+					return false;
+				}
+				rij--;
+			}
+			//Als de richting naar het noorden gaat
+			if(richting == 0 || richting == 1 || richting == 7)
+			{
+				if(kolom == 0)
+				{
+					return false;
+				}
+				kolom--;
+			}
+
+			//Als de richting naar het zuiden gaat
+			if (richting == 3 || richting == 4 || richting == 5)
+			{
+				if (kolom == 7)
+				{
+					return false;
+				}
+				kolom++;
 			}
 
 
@@ -181,7 +255,7 @@ namespace ReversiRestApi.Spel
 			}
 		}
 
-		public string[] richtingen = { "NW", "W", "ZW", "N", "Neutraal", "Z", "NO", "O", "ZO" };
+		public string[] richtingen = { "N", "NO", "O", "ZO", "Z", "ZW", "W", "NW" };
 
 		
 	}
