@@ -33,17 +33,10 @@ namespace ReversiRestApi.Spel
 		}
 		public bool Afgelopen()
 		{
-			for (int i = 0; i < 8; i++)
-			{
-				for (int j = 0; j < 8; j++)
-				{
-					if (Bord[i, j] == Kleur.Geen)
-					{
-						return false;
-					}
-				}
-			}
-			return true;
+			bool pas1 = Pas();
+			bool pas2 = Pas();
+
+			return (pas1 && pas2);
 		}
 
 		public bool DoeZet(int rijZet, int kolomZet)
@@ -62,7 +55,7 @@ namespace ReversiRestApi.Spel
 						VeranderKleuren(rijZet, kolomZet, Array.IndexOf(richtingen, richtingen[i]));
 					}
 				}
-				Pas();
+				WisselBeurt();
 				return true;
 			}
 			return false;
@@ -103,14 +96,41 @@ namespace ReversiRestApi.Spel
 
 		public bool Pas()
 		{
-			if(AandeBeurt == Kleur.Zwart)
+			ArrayList zetRichtingen = new ArrayList();
+
+
+
+			for (int i = 0; i < Bord.GetLength(0); i++)
 			{
-				AandeBeurt = Kleur.Wit;
-			}else if(AandeBeurt == Kleur.Wit)
+				for (int j = 0; j < Bord.GetLength(1); j++)
+				{
+					if (Bord[i, j] == Kleur.Geen)
+					{
+						zetRichtingen.Add(ZetMogelijk(i, j));
+					}
+				}
+			}
+			if (zetRichtingen.Contains(true))
+			{
+				return false;
+			}
+			else
+			{
+				WisselBeurt();
+				return true;
+			}
+		}
+
+		private void WisselBeurt()
+		{
+			if(AandeBeurt == Kleur.Wit)
 			{
 				AandeBeurt = Kleur.Zwart;
 			}
-			return true;
+			else
+			{
+				AandeBeurt = Kleur.Wit;
+			}
 		}
 
 
@@ -196,7 +216,6 @@ namespace ReversiRestApi.Spel
 			{
 				return false;
 			}
-
 			//als de richting naar het oosten gaat
 			if(richting == 1 || richting == 2 || richting == 3)
 			{
@@ -224,7 +243,6 @@ namespace ReversiRestApi.Spel
 				}
 				kolom--;
 			}
-
 			//Als de richting naar het zuiden gaat
 			if (richting == 3 || richting == 4 || richting == 5)
 			{
@@ -235,12 +253,7 @@ namespace ReversiRestApi.Spel
 				kolom++;
 			}
 
-
-
 			Kleur einde = Bord[rij, kolom];
-
-
-
 			if (einde == AandeBeurt && line)
 			{
 				return true;
