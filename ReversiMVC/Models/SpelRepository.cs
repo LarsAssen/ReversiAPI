@@ -13,15 +13,16 @@ namespace ReversiMVC.Models
 		public int Speler1Token { get; set; }
 		public int Speler2Token { get; set; }
 		public int GameState { get; set; }
+		public List<Spel> Spellen { get; set; }
 
 		public void AddSpel(Spel spel)
 		{
-			throw new NotImplementedException();
+			Spellen.Add(spel);
 		}
 
 		public Spel GetSpel(string spelToken)
 		{
-			throw new NotImplementedException();
+			return Spellen.Find(x => x.Token == spelToken);
 		}
 	}
 }
