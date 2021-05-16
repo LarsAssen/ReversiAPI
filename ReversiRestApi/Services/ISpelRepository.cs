@@ -9,6 +9,7 @@ namespace ReversiMVC.Models
 	public interface ISpelRepository
 	{
 		public void AddSpel(Spel spel);
+		public List<Spel> GetSpellen();
 		public Spel GetSpel(string spelToken);
 	}
 }

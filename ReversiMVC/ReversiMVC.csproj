@@ -12,4 +12,8 @@
     <ProjectReference Include="..\ReversiRestApi\ReversiRestApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>
