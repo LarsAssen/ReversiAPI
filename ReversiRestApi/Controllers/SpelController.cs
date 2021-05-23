@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static ReversiRestApi.Spel.Spel;
+using ReversiRestApi.Spel;
 
 
 namespace ReversiRestApi.Controllers
@@ -39,6 +39,33 @@ namespace ReversiRestApi.Controllers
 				omschrijvingen.Add(spel.Omschrijving);
 			}
 			return omschrijvingen;
+		}
+
+		[HttpPost]
+		public void AddNieuwSpel(string spelerToken, string omschrijving)
+		{
+			Spel.Spel spel = new Spel.Spel();
+			spel.Speler1Token = spelerToken;
+			spel.Omschrijving = omschrijving;
+
+			iRepository.AddSpel(spel);
+		}
+
+		[HttpGet]
+		public ActionResult<Spel.Spel> GetSpel(string spelToken)
+		{
+			var spel = iRepository.GetSpel(spelToken);
+
+			return spel;
+		}
+
+		[HttpGet]
+		public ActionResult<Spel.Spel> GetSpelFromSpelerToken(string spelerToken)
+		{
+			var spellen = iRepository.GetSpellen();
+			var spel = spellen.Where(spel => spel.Speler1Token == spelerToken).FirstOrDefault();
+
+			return spel;
 		}
 
 		[HttpGet]
