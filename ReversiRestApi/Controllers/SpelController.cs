@@ -69,31 +69,27 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<string> GetToken()
-		{
-			string token = "";
-
-			return token;
-		}
-
-		[HttpPost]
-		public ActionResult<string> SetToken()
-		{
-			string token = "";
-
-			return token;
-		}
-
-		[HttpGet]
-		public ActionResult<string> Beurt()
+		public ActionResult<string> Beurt(string speltoken)
 		{
 			return "1";
 		}
 
 		[HttpPost]
-		public void Zet()
+		public void Zet(string speltoken, string spelertoken)
 		{
 
+		}
+
+		[HttpPut]
+		public ActionResult<string> Opgeven(string speltoken, string spelertoken)
+		{
+			return "1";
+		}
+
+		[HttpPut]
+		public ActionResult<string> SpelEinde(string speltoken)
+		{
+			return "1";
 		}
 
 
