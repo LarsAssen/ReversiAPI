@@ -69,29 +69,35 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult<string> Beurt(string speltoken)
+		public ActionResult<Kleur> Beurt(string speltoken)
 		{
-			return "1";
+			var spel = iRepository.GetSpel(speltoken);
+			var kleur = spel.AandeBeurt;
+			return kleur;
 		}
 
 		[HttpPost]
-		public void Zet(string speltoken, string spelertoken)
+		public void Zet(string speltoken, string spelertoken, int rij, int kolom)
 		{
-
+			var spel = iRepository.GetSpel(speltoken);
+			spel.DoeZet(rij, kolom);
 		}
 
 		[HttpPut]
 		public ActionResult<string> Opgeven(string speltoken, string spelertoken)
 		{
-			return "1";
+			var spel = iRepository.GetSpel(speltoken);
+			spel.Afgelopen();
+			
+			//return winnaar
+			if(spelertoken == spel.Speler1Token)
+			{
+				return spel.Speler2Token;
+			}
+			else
+			{
+				return spel.Speler2Token;
+			}
 		}
-
-		[HttpPut]
-		public ActionResult<string> SpelEinde(string speltoken)
-		{
-			return "1";
-		}
-
-
 	}
 }
