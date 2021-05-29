@@ -42,9 +42,10 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpPost]
-		public void AddNieuwSpel(string spelerToken, string omschrijving)
+		public void AddNieuwSpel(string spelerToken, string spelToken, string omschrijving)
 		{
 			Spel.Spel spel = new Spel.Spel();
+			spel.Token = spelToken;
 			spel.Speler1Token = spelerToken;
 			spel.Omschrijving = omschrijving;
 
