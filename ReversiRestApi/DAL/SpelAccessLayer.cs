@@ -12,12 +12,44 @@ namespace ReversiRestApi.DAL
 		private const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ReversiDbRestApi;Integrated Security=True;";
 		public void AddSpel(Spel.Spel spel)
 		{
-			throw new NotImplementedException();
+			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
+			{
+				string query = "INSERT INTO Game VALUES(@GUID, @Omschrijving, @Speler1Token, @Speler2Token @GameState)";
+				SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+				sqlCmd.Parameters.AddWithValue("@GUID", spel.ID);
+				sqlCmd.Parameters.AddWithValue("@Omschrijving", spel.Omschrijving);
+				sqlCmd.Parameters.AddWithValue("@Speler1Token", spel.Speler1Token);
+				sqlCmd.Parameters.AddWithValue("@Speler2Token", spel.Speler2Token);
+				sqlCmd.Parameters.AddWithValue("@GameState", spel.Bord);
+
+				sqlCon.Open();
+				sqlCmd.ExecuteNonQuery();
+				sqlCon.Close();
+			}
 		}
 
 		public Spel.Spel GetSpel(string spelToken)
 		{
-			throw new NotImplementedException();
+			var spel = new Spel.Spel();
+			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
+			{
+				string query = "SELECT * FROM Game WHERE GUID = " + spelToken;
+				sqlCon.Open();
+				SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+				SqlDataReader rdr = sqlCmd.ExecuteReader();
+
+				while (rdr.Read())
+				{
+					spel.ID = Convert.ToInt32(rdr["GUID"]);
+					spel.Omschrijving = rdr["Omschrijving"].ToString();
+					spel.Speler1Token = rdr["Speler1Token"].ToString();
+					spel.Speler2Token = rdr["Speler2Token"].ToString();
+					//TODO Convert this string into a gameboard
+					var gameState = rdr["GameState"].ToString();
+				}
+				sqlCon.Close();
+			}
+			return spel;
 		}
 
 		public List<Spel.Spel> GetSpellen()
