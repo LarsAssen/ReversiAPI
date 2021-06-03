@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ReversiMVC.Models;
+using ReversiMvcApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReversiMVC.Controllers
+namespace ReversiMvcApp.Controllers
 {
 	public class HomeController : Controller
 	{

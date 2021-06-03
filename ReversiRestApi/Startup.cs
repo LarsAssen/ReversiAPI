@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ReversiMVC.Models;
 using ReversiRestApi.Controllers;
+using ReversiRestApi.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace ReversiRestApi
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddControllers();
-			services.AddSingleton<SpelRepository, SpelRepository>();
+			services.AddSingleton<ISpelRepository, SpelAccessLayer>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
