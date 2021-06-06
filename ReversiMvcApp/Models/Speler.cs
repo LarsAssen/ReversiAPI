@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReversiRestApi.Spel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -18,5 +19,6 @@ namespace ReversiMvcApp.Models
 		public int AantalVerloren { get; set; }
 		[DisplayName("Aantal Gelijk Gespeeld")]
 		public int AantalGelijk { get; set; }
+		public Spel Spel { get; set; }
 	}
 }
