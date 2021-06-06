@@ -14,7 +14,7 @@ namespace ReversiRestApi.DAL
 		{
 			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
 			{
-				string query = "INSERT INTO Game VALUES(@GUID, @Omschrijving, @Speler1Token, @Speler2Token @GameState)";
+				string query = "INSERT INTO Spel VALUES(@GUID, @Omschrijving, @Speler1Token, @Speler2Token @GameState)";
 				SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
 				sqlCmd.Parameters.AddWithValue("@GUID", spel.ID);
 				sqlCmd.Parameters.AddWithValue("@Omschrijving", spel.Omschrijving);
@@ -33,7 +33,7 @@ namespace ReversiRestApi.DAL
 			var spel = new Spel.Spel();
 			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
 			{
-				string query = "SELECT * FROM Game WHERE GUID = " + spelToken;
+				string query = "SELECT * FROM Spel WHERE GUID = " + spelToken;
 				sqlCon.Open();
 				SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
 				SqlDataReader rdr = sqlCmd.ExecuteReader();
@@ -56,7 +56,7 @@ namespace ReversiRestApi.DAL
 		{
 			var spelList = new List<Spel.Spel>();
 
-			string sqlQuery = "SELECT * FROM Game";
+			string sqlQuery = "SELECT * FROM Spel";
 
 			using (SqlConnection sqlCon = new SqlConnection(ConnectionString))
 			{
