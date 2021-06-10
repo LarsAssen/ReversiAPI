@@ -27,12 +27,22 @@ namespace ReversiMvcApp
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			//Database connections
 			services.AddDbContext<ApplicationDbContext>(options =>
 				options.UseSqlServer(
 					Configuration.GetConnectionString("DefaultConnection")));
-			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+			services.AddDbContext<ReversiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ReversiConnection")));
+
+			services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
 				.AddEntityFrameworkStores<ApplicationDbContext>();
-			services.AddDbContext<ReversiDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ReversiDatabase")));
+
+			services.Configure<IdentityOptions>(options =>
+			{
+				options.SignIn.RequireConfirmedAccount = false;
+				options.SignIn.RequireConfirmedEmail = false;
+				options.SignIn.RequireConfirmedPhoneNumber = false;
+			});
+
 			services.AddControllersWithViews();
 			services.AddRazorPages();
 		}
