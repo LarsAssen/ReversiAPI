@@ -1,4 +1,4 @@
-﻿using ReversiRestApi.Spel;
+﻿using ReversiMvcApp.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
