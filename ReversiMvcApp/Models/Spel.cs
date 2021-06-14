@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReversiMvcApp.Spel
+namespace ReversiMvcApp.Data
 {
 	public class Spel
 	{
@@ -16,5 +16,8 @@ namespace ReversiMvcApp.Spel
 		public Speler Speler1 { get; set; }
 		public string Speler2Token { get; set; }
 		public Speler Speler2 { get; set; }
+		public ICollection<Stone> Stones { get; set; }
+		public string AandeBeurt { get; set; }
+
 	}
 }

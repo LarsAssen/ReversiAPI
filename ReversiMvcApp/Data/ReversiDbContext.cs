@@ -12,5 +12,7 @@ namespace ReversiMvcApp.Data
 		public ReversiDbContext(DbContextOptions<ReversiDbContext> options) : base(options) { }
 
 		public DbSet<Speler> Speler { get; set; }
+		public DbSet<Spel> Spel { get; set; }
+		public DbSet<Stone> Stone { get; set; }
 	}
 }
