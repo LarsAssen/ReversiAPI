@@ -21,7 +21,8 @@ namespace ReversiMvcApp.Controllers
         // GET: Spel
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Spel.ToListAsync());
+            var spellen = _context.Spel.Where(spel => string.IsNullOrEmpty(spel.Speler2Token)).ToListAsync();
+            return View(spellen);
         }
 
         // GET: Spel/Details/5
