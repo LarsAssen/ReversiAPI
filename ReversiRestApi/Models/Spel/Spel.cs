@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReversiRestApi.Spel
+namespace ReversiRestApi
 {
 	public class Spel : ISpel
 	{

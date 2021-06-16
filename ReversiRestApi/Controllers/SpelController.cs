@@ -21,7 +21,7 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<Spel.Spel>>> GetSpellen()
+		public async Task<ActionResult<IEnumerable<Spel>>> GetSpellen()
 		{
 			var spellen = iRepository.GetSpellen();
 			return spellen;
@@ -33,7 +33,7 @@ namespace ReversiRestApi.Controllers
 		{
 			var spellen = iRepository.GetSpellen();
 
-			foreach(Spel.Spel spel in spellen)
+			foreach(Spel spel in spellen)
 			{
 				if (String.IsNullOrEmpty(spel.Speler2Token))
 				{
@@ -41,7 +41,7 @@ namespace ReversiRestApi.Controllers
 				}
 			}
 			var omschrijvingen = new List<string>();
-			foreach(Spel.Spel spel in spellen)
+			foreach(Spel spel in spellen)
 			{
 				omschrijvingen.Add(spel.Omschrijving);
 			}
@@ -51,7 +51,7 @@ namespace ReversiRestApi.Controllers
 		[HttpPost]
 		public void AddNieuwSpel(string spelerToken, string spelToken, string omschrijving)
 		{
-			Spel.Spel spel = new Spel.Spel();
+			Spel spel = new Spel();
 			spel.Token = spelToken;
 			spel.Speler1Token = spelerToken;
 			spel.Omschrijving = omschrijving;
@@ -60,7 +60,7 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpGet("{spelToken}")]
-		public ActionResult<Spel.Spel> GetSpel(string spelToken)
+		public ActionResult<Spel> GetSpel(string spelToken)
 		{
 			var spel = iRepository.GetSpel(spelToken);
 
@@ -68,7 +68,7 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpGet("{spelerToken}")]
-		public ActionResult<Spel.Spel> GetSpelFromSpelerToken(string spelerToken)
+		public ActionResult<Spel> GetSpelFromSpelerToken(string spelerToken)
 		{
 			var spellen = iRepository.GetSpellen();
 			var spel = spellen.Where(spel => spel.Speler1Token == spelerToken).FirstOrDefault();

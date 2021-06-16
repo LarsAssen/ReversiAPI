@@ -10,7 +10,7 @@ namespace ReversiRestApi.DAL
 	public class SpelAccessLayer : ISpelRepository
 	{
 		private const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=ReversiDbRestApi;Integrated Security=True;";
-		public void AddSpel(Spel.Spel spel)
+		public void AddSpel(Spel spel)
 		{
 			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
 			{
@@ -28,9 +28,9 @@ namespace ReversiRestApi.DAL
 			}
 		}
 
-		public Spel.Spel GetSpel(string spelToken)
+		public Spel GetSpel(string spelToken)
 		{
-			var spel = new Spel.Spel();
+			var spel = new Spel();
 			using(SqlConnection sqlCon = new SqlConnection(ConnectionString))
 			{
 				string query = "SELECT * FROM Spel WHERE GUID = " + spelToken;
@@ -52,9 +52,9 @@ namespace ReversiRestApi.DAL
 			return spel;
 		}
 
-		public List<Spel.Spel> GetSpellen()
+		public List<Spel> GetSpellen()
 		{
-			var spelList = new List<Spel.Spel>();
+			var spelList = new List<Spel>();
 
 			string sqlQuery = "SELECT * FROM Spel";
 
@@ -66,7 +66,7 @@ namespace ReversiRestApi.DAL
 
 				while (rdr.Read())
 				{
-					var spel = new Spel.Spel();
+					var spel = new Spel();
 					spel.ID = Convert.ToInt32(rdr["GUID"]);
 					spel.Omschrijving = rdr["Omschrijving"].ToString();
 					spel.Speler1Token = rdr["Speler1Token"].ToString();
