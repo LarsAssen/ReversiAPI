@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReversiMVC.Models
+namespace ReversiRestApi.Services
 {
 	public interface ISpelRepository
 	{
