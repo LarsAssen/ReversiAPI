@@ -13,4 +13,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReversiMvcApp\ReversiMvcApp.csproj" />
+    <ProjectReference Include="..\ReversiRestApi\ReversiRestApi.csproj" />
+  </ItemGroup>
+
 </Project>

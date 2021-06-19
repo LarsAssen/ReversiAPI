@@ -14,5 +14,16 @@ namespace ReversiMvcApp.Data
 		public DbSet<Speler> Speler { get; set; }
 		public DbSet<Spel> Spel { get; set; }
 		public DbSet<Stone> Stone { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<Spel>()
+				.Property(c => c.AandeBeurt)
+				.HasConversion<int>();
+
+			modelBuilder.Entity<Spel>()
+				.Property(c => c.Bord)
+				.HasConversion<int[,]>();
+		}
 	}
 }

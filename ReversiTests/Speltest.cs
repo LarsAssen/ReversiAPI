@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
+using ReversiMvcApp;
 using ReversiRestApi;
-using ReversiRestApi.Spel;
 using System;
     using System.Collections.Generic;
     using System.Text;
