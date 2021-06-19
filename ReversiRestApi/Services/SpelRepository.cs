@@ -1,4 +1,5 @@
-﻿using ReversiRestApi;
+﻿using ReversiMvcApp;
+using ReversiRestApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
