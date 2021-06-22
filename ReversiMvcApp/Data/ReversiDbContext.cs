@@ -22,6 +22,9 @@ namespace ReversiMvcApp.Data
 				.HasConversion<int>();
 
 			modelBuilder.Entity<Spel>()
+				.HasMany(spel => spel.Stones);
+
+			modelBuilder.Entity<Spel>()
 				.Property(c => c.Bord)
 				.HasConversion<int[,]>();
 
@@ -33,6 +36,9 @@ namespace ReversiMvcApp.Data
 
 			modelBuilder.Entity<Speler>()
 				.HasOne(speler => speler.Spel);
+
+			modelBuilder.Entity<Stone>()
+				.HasOne(stone => stone.Spel);
 		}
 	}
 }

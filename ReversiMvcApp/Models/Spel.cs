@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,6 +20,7 @@ namespace ReversiMvcApp
 		public ICollection<Stone> Stones { get; set; }
 		public Kleur AandeBeurt { get; set; }
 
+		[NotMapped]
 		public Kleur[,] Bord { get; set; }
 
 		public Spel()
