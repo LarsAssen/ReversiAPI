@@ -24,6 +24,15 @@ namespace ReversiMvcApp.Data
 			modelBuilder.Entity<Spel>()
 				.Property(c => c.Bord)
 				.HasConversion<int[,]>();
+
+			modelBuilder.Entity<Spel>()
+				.HasOne(spel => spel.Speler1);
+
+			modelBuilder.Entity<Spel>()
+				.HasOne(spel => spel.Speler2);
+
+			modelBuilder.Entity<Speler>()
+				.HasOne(speler => speler.Spel);
 		}
 	}
 }
