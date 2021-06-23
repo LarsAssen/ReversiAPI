@@ -25,8 +25,11 @@ namespace ReversiMvcApp.Data
 				.HasMany(spel => spel.Stones);
 
 			modelBuilder.Entity<Spel>()
-				.Property(c => c.Bord)
-				.HasConversion<int[,]>();
+				.Property(c => c.AandeBeurt)
+				.HasConversion<int>();
+			//modelBuilder.Entity<Spel>()
+			//	.Property(c => c.Bord)
+			//	.HasConversion<int[,]>();
 
 			modelBuilder.Entity<Spel>()
 				.HasOne(spel => spel.Speler1);
@@ -39,6 +42,9 @@ namespace ReversiMvcApp.Data
 
 			modelBuilder.Entity<Stone>()
 				.HasOne(stone => stone.Spel);
+
+			modelBuilder.Entity<Spel>()
+				.Ignore(s => s.Bord);
 		}
 	}
 }
