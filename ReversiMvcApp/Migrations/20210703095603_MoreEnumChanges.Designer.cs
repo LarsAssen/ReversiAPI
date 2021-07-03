@@ -10,8 +10,8 @@ using ReversiMvcApp.Data;
 namespace ReversiMvcApp.Migrations
 {
     [DbContext(typeof(ReversiDbContext))]
-    [Migration("20210623151444_NewMigration")]
-    partial class NewMigration
+    [Migration("20210703095603_MoreEnumChanges")]
+    partial class MoreEnumChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

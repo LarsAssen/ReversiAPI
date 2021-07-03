@@ -17,16 +17,13 @@ namespace ReversiMvcApp.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Spel>()
-				.Property(c => c.AandeBeurt)
-				.HasConversion<int>();
 
 			modelBuilder.Entity<Spel>()
 				.HasMany(spel => spel.Stones);
 
 			modelBuilder.Entity<Spel>()
 				.Property(c => c.AandeBeurt)
-				.HasConversion<int>();
+				.HasConversion(x => (int) x, x => (Kleur) x);
 			//modelBuilder.Entity<Spel>()
 			//	.Property(c => c.Bord)
 			//	.HasConversion<int[,]>();

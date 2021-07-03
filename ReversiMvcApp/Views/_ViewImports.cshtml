@@ -1,3 +1,8 @@
 ﻿@using ReversiMvcApp
 @using ReversiMvcApp.Models
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<add name="JavaScriptHandler"
+	 path="*.js"
+	 verb="*"
+	 preCondition="integratedMode"
+	 type="System.Web.StaticFileHandler" />
