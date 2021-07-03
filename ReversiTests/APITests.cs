@@ -13,9 +13,9 @@ namespace ReversiTests
 	public class APITests
 	{
 		ISpelRepository spelRepository;
-		SpelController spelController;
+		SpelAPIController spelController;
 		Mock<ISpelRepository> mockedSpelRepository;
-		SpelController mockedSpelController;
+		SpelAPIController mockedSpelController;
 
 		[SetUp]
 		public void Setup()

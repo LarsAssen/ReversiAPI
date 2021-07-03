@@ -22,6 +22,6 @@ namespace ReversiMvcApp.Models
 		[DisplayName("Aantal Gelijk Gespeeld")]
 		public int AantalGelijk { get; set; }
 		public Spel Spel { get; set; }
-		public string Kleur { get; set; }
+		public Kleur Kleur { get; set; }
 	}
 }

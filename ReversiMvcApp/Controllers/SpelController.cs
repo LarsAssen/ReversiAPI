@@ -6,16 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReversiMvcApp.Data;
+using ReversiRestApi.Services;
 
 namespace ReversiMvcApp.Controllers
 {
     public class SpelController : Controller
     {
         private readonly ReversiDbContext _context;
+        private ISpelRepository _repo; 
 
-        public SpelController(ReversiDbContext context)
+        public SpelController(ReversiDbContext context, ISpelRepository repo)
         {
             _context = context;
+            _repo = repo;
         }
 
         // GET: Spel
