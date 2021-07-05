@@ -13,7 +13,7 @@ namespace ReversiMvcApp.Controllers
     public class SpelController : Controller
     {
         private readonly ReversiDbContext _context;
-        private ISpelRepository _repo; 
+        private readonly ISpelRepository _repo; 
 
         public SpelController(ReversiDbContext context, ISpelRepository repo)
         {

@@ -20,7 +20,7 @@ namespace ReversiTests
 		[SetUp]
 		public void Setup()
 		{
-			spelRepository = new SpelRepository();
+			//spelRepository = new SpelRepository();
 			//spelController = new SpelController(spelRepository);
 			mockedSpelRepository = new Mock<ISpelRepository>();
 			//mockedSpelController = new SpelController(mockedSpelRepository.Object);

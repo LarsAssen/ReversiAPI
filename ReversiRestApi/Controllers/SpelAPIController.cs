@@ -39,9 +39,10 @@ namespace ReversiRestApi.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult GeefOp(Kleur speler, Spel spel)
+		public Spel GeefOp(Kleur speler, Spel spel)
 		{
 			spel.Afgelopen();
+			return spel;
 		}
 	}
 }

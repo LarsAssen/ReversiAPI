@@ -1,4 +1,5 @@
-﻿using ReversiMvcApp.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using ReversiMvcApp.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace ReversiMvcApp.Models
 {
-	public class Speler
+	public class Speler : IdentityUser
 	{
 		[Key]
 		public string GUID { get; set; }
 		public string Naam { get; set; }
-		public string Email { get; set; }
+		//public string Email { get; set; }
 
 		[DisplayName("Aantal Gewonnen")]
 		public int AantalGewonnen { get; set; }
