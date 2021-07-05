@@ -16,18 +16,8 @@
                 @Html.DisplayNameFor(model => model.Omschrijving)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Token)
+                @Html.DisplayNameFor(model => model.Speler1.Naam)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Speler1Token)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Speler2Token)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AandeBeurt)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -37,20 +27,11 @@
                 @Html.DisplayFor(modelItem => item.Omschrijving)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Token)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speler1Token)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Speler2Token)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AandeBeurt)
+                @Html.DisplayFor(modelItem => item.Speler1.Naam)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Join</a> |
+                <a asp-action="Join" asp-route-id="@item.ID">Join</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
         </tr>

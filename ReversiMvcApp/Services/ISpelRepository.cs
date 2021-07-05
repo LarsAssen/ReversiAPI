@@ -12,5 +12,6 @@ namespace ReversiRestApi.Services
 		public void AddSpel(Spel spel);
 		public List<Spel> GetSpellen();
 		public Spel GetSpel(string spelToken);
+		public List<Spel> GetSpellenMet1Speler();
 	}
 }

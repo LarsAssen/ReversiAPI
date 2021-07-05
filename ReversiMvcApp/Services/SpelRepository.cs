@@ -1,4 +1,5 @@
-﻿using ReversiMvcApp;
+﻿using Microsoft.EntityFrameworkCore;
+using ReversiMvcApp;
 using ReversiMvcApp.Data;
 using ReversiRestApi;
 using System;
@@ -29,12 +30,21 @@ namespace ReversiRestApi.Services
 
 		public List<Spel> GetSpellen()
 		{
-			return Spellen;
+			var spellen = _context.Spel.ToList();
+			var spellenMet1Speler = new List<Spel>();
+			foreach(Spel spel in spellen)
+			{
+				if(spel.Speler2Token != "")
+				{
+					spellenMet1Speler.Add(spel);
+				}
+			}
+			return spellenMet1Speler;
 		}
 
 		public List<Spel> GetSpellenMet1Speler()
 		{
-			return Spellen.Where(c => c.Speler2 != null).ToList();
+			return Spellen.Where(c => c.Speler2Token != null).ToList();
 		}
 	}
 }

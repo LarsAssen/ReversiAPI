@@ -22,14 +22,14 @@ namespace ReversiMvcApp.Controllers
         }
 
         // GET: Spel
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            //var spellen = _context.Spel.(spel => string.IsNullOrEmpty(spel.Speler2Token)).ToListAsync();
-            return View(await _context.Spel.ToListAsync());
+            var spellen = _repo.GetSpellen();
+            return View(spellen);
         }
 
-        // GET: Spel/Details/5
-        public async Task<IActionResult> Details(int? id)
+        // GET: Spel/Join/5
+        public async Task<IActionResult> Join(int? id)
         {
             if (id == null)
             {
@@ -43,6 +43,7 @@ namespace ReversiMvcApp.Controllers
                 return NotFound();
             }
 
+            //TODO: Set current user as the second player in the game, and start the game.
             return View(spel);
         }
 
