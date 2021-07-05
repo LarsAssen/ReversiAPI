@@ -14,9 +14,9 @@ namespace ReversiRestApi.Controllers
 	[ApiController]
 	public class SpelAPIController : ControllerBase
 	{
-		private ISpelService _spelService;
+		private SpelService _spelService;
 
-		public SpelAPIController(ISpelService spelService)
+		public SpelAPIController(SpelService spelService)
 		{
 			_spelService = spelService;
 		}
