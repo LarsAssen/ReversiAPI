@@ -14,11 +14,24 @@ namespace ReversiRestApi.Controllers
 	[ApiController]
 	public class SpelAPIController : ControllerBase
 	{
-		private SpelService _spelService;
+		private ISpelService _spelService;
 
-		public SpelAPIController(SpelService spelService)
+		public SpelAPIController(ISpelService spelService)
 		{
 			_spelService = spelService;
+		}
+
+		[HttpGet]
+		public IActionResult Get()
+		{
+			return Ok(_spelService.GetSpellen());
+		}
+
+
+		public Spel GetSpel(string token)
+		{
+			Spel spel = _spelService.GetSpel(token);
+			return spel;
 		}
 
 		public Spel StartSpel(Spel spel)
@@ -39,11 +52,16 @@ namespace ReversiRestApi.Controllers
 			return spel;
 		}
 
-		[HttpPost]
-		public Spel GeefOp(Kleur speler, Spel spel)
+		[HttpPost("GeefOp/{token}", Name = "GeefOp")]
+		public IActionResult GeefOp(Kleur speler, Spel spel)
 		{
-			spel.Afgelopen();
-			return spel;
+			if (spel.Afgelopen())
+			{
+				return StatusCode(409, "Spel is al afgelopen");
+			}
+			spel.Cancelled = true;
+			_spelService.
+			return Ok();
 		}
 	}
 }

@@ -19,6 +19,7 @@ namespace ReversiMvcApp
 		public Speler Speler2 { get; set; }
 		public ICollection<Stone> Stones { get; set; }
 		public Kleur AandeBeurt { get; set; }
+		public bool Cancelled { get; set; }
 
 		[NotMapped]
 		public Kleur[,] Bord { get; set; }

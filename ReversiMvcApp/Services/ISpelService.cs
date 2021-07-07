@@ -7,6 +7,8 @@ namespace ReversiMvcApp.Services
 {
 	public interface ISpelService
 	{
+		public List<Spel> GetSpellen();
+		public Spel GetSpel(string token);
 		public Spel StartSpel(Spel spel);
 
 		public Spel DoeZet(Spel spel, int X, int Y);
