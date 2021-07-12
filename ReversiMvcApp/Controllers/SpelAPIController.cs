@@ -60,7 +60,6 @@ namespace ReversiRestApi.Controllers
 				return StatusCode(409, "Spel is al afgelopen");
 			}
 			spel.Cancelled = true;
-			_spelService.
 			return Ok();
 		}
 	}

@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.IdentityModel.Tokens;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ReversiMvcApp.Data;
 using ReversiRestApi.Services;
+using ReversiMvcApp.ClassHelpers;
 
 namespace ReversiMvcApp.Controllers
 {
+    [Authenticated]
     public class SpelController : Controller
     {
         private readonly ReversiDbContext _context;
