@@ -9,19 +9,21 @@ using Microsoft.EntityFrameworkCore;
 using ReversiMvcApp.Data;
 using ReversiRestApi.Services;
 using ReversiMvcApp.ClassHelpers;
+using ReversiMvcApp.Services;
+using Reversi.Services.Authentication;
 
 namespace ReversiMvcApp.Controllers
 {
     [Authenticated]
     public class SpelController : Controller
     {
-        private readonly ReversiDbContext _context;
-        private readonly ISpelRepository _repo; 
+        private readonly IAuthenticationService _authService;
+        private readonly ISpelService _spelService;
 
-        public SpelController(ReversiDbContext context, ISpelRepository repo)
+        public SpelController(IAuthenticationService authService, ISpelService spelService)
         {
-            _context = context;
-            _repo = repo;
+            _authService = authService;
+            _spelService = spelService;
         }
 
         // GET: Spel

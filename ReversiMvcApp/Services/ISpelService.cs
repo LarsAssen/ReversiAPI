@@ -9,10 +9,11 @@ namespace ReversiMvcApp.Services
 	{
 		public List<Spel> GetSpellen();
 		public Spel GetSpel(string token);
-		public Spel StartSpel(Spel spel);
+		public Spel GetSpel(int id);
+		public Spel CreateSpel(Spel spel);
 
-		public Spel DoeZet(Spel spel, int X, int Y);
+		public Spel JoinSpel(Spel spel);
 
-		public Spel GeefOp(Spel spel);
+		public Spel UpdateSpel(Spel spel);
 	}
 }
