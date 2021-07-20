@@ -51,6 +51,12 @@ namespace ReversiMvcApp.Controllers
             return View(spel);
         }
 
+        [HttpPost, ActionName("Join"), CSRF]
+        public IActionResult JoinPost(int id)
+		{
+
+		}
+
         // GET: Spel/Create
         public IActionResult Create()
         {
