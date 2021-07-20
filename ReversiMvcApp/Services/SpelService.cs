@@ -40,32 +40,53 @@ namespace ReversiMvcApp.Services
 
 		public Spel GetSpel(string token)
 		{
-			throw new NotImplementedException();
+			var spel = _context.Spel.Include(x => x.Speler1).Include(x => x.Speler2).Include(x => x.Stones).FirstOrDefault(x => x.Speler1Token == token || x.Speler2Token == token);
+			return spel;
+		
 		}
 
 		public Spel GetSpel(int id)
 		{
-			throw new NotImplementedException();
+			var spel = _context.Spel.FirstOrDefault(x => x.ID == id);
+			return spel;
 		}
 
 		public List<Spel> GetSpellen()
 		{
-			throw new NotImplementedException();
+			var spellen = _context.Spel.Include(c => c.Speler1).Include(c => c.Speler2).Include(c => c.Stones).ToList();
+			return spellen;
 		}
 
 		public List<Spel> GetSpellen(Speler speler)
 		{
-			throw new NotImplementedException();
+			Speler spelerAuth = _context.Speler.FirstOrDefault(x => x.GUID == _authService.Get().GUID);
+
+			List<Spel> speler1Spellen = _context.Spel.Where(c => c.Speler1 == spelerAuth).Include(c => c.Speler1).Include(c => c.Speler2).Include(c => c.Stones).ToList();
+			List<Spel> speler2Spellen = _context.Spel.Where(c => c.Speler2 == spelerAuth).Include(c => c.Speler1).Include(c => c.Speler2).Include(c => c.Stones).ToList();
+
+			var spellen = speler1Spellen.Union(speler2Spellen).ToList();
+			return spellen;
 		}
 
 		public Spel JoinSpel(Spel spel)
 		{
-			throw new NotImplementedException();
+			spel.Speler2 = _context.Speler.FirstOrDefault(x => x.GUID == _authService.Get().GUID);
+			spel.Speler2Token = GetNextAvailableToken();
+
+			_context.SaveChanges();
+			return spel;
 		}
 
-		public void UpdateSpel(Spel spel)
+		public void UpdateSpel(Spel spel, bool removeOldStones = true)
 		{
-			throw new NotImplementedException();
+			if (removeOldStones)
+			{
+				_context.SaveChanges();
+
+				_context.Stone.RemoveRange(_context.Stone.Where(c => c.Spel == null));
+			}
+
+			_context.SaveChanges();
 		}
 
 		private string GetNextAvailableToken()
