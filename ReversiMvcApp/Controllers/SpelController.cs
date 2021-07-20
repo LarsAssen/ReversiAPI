@@ -27,28 +27,27 @@ namespace ReversiMvcApp.Controllers
         }
 
         // GET: Spel
+        [HttpGet]
         public IActionResult Index()
         {
-            var spellen = _repo.GetSpellen();
+            var spellen = _spelService.GetSpellen().Where(x => !x.Afgelopen() && !x.Cancelled && x.Speler2 == null);
             return View(spellen);
         }
 
         // GET: Spel/Join/5
-        public async Task<IActionResult> Join(int? id)
+        [HttpGet]
+        public IActionResult Join(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Spel spel = _spelService.GetSpel(id);
 
-            var spel = await _context.Spel
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (spel == null)
-            {
-                return NotFound();
-            }
-
-            //TODO: Set current user as the second player in the game, and start the game.
+            if(_spelService.GetSpellen(_authService.Get()).Count(x => !x.Afgelopen() && !x.Cancelled) > 0)
+			{
+                return new RedirectResult("/spel");
+			}
+            if(spel.Speler2 != null || spel.Afgelopen() || spel.Cancelled)
+			{
+                return new RedirectResult("/spel");
+			}
             return View(spel);
         }
 
