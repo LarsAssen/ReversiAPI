@@ -54,114 +54,51 @@ namespace ReversiMvcApp.Controllers
         [HttpPost, ActionName("Join"), CSRF]
         public IActionResult JoinPost(int id)
 		{
+            Spel spel = _spelService.GetSpel(id);
+
+            if(_spelService.GetSpellen(_authService.Get()).Count(x => !x.Afgelopen() && !x.Cancelled) > 0)
+			{
+                return new RedirectResult("/game");
+			}
+
+            if(spel.Speler2 != null || spel.Afgelopen() || spel.Cancelled)
+			{
+                return new RedirectResult("/game");
+			}
+
+            spel = _spelService.JoinSpel(spel);
+
+            return new RedirectResult($"/index.html?token={Base64UrlEncoder.Encode(spel.Speler2Token)}");
 
 		}
 
         // GET: Spel/Create
+        [HttpGet]
         public IActionResult Create()
         {
+            if(_spelService.GetSpellen(_authService.Get()).Count(x => !x.Afgelopen() && !x.Cancelled) > 0)
+			{
+                return new RedirectResult("/game");
+			}
+
             return View();
         }
 
-        // POST: Spel/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Omschrijving,Token,Speler1Token,Speler2Token,AandeBeurt")] Spel spel)
+        [CSRF]
+        public IActionResult Create(string description)
         {
-            if (ModelState.IsValid)
+            if (_spelService.GetSpellen(_authService.Get()).Count(x => !x.Afgelopen() && !x.Cancelled) > 0)
             {
-                _context.Add(spel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(spel);
-        }
-
-        // GET: Spel/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return new RedirectResult("/game");
             }
 
-            var spel = await _context.Spel.FindAsync(id);
-            if (spel == null)
-            {
-                return NotFound();
-            }
-            return View(spel);
-        }
+            Spel spel = new Spel();
+            spel.Omschrijving = description;
 
-        // POST: Spel/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Omschrijving,Token,Speler1Token,Speler2Token,AandeBeurt")] Spel spel)
-        {
-            if (id != spel.ID)
-            {
-                return NotFound();
-            }
+            spel = _spelService.CreateSpel(spel);
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(spel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SpelExists(spel.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(spel);
-        }
-
-        // GET: Spel/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var spel = await _context.Spel
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (spel == null)
-            {
-                return NotFound();
-            }
-
-            return View(spel);
-        }
-
-        // POST: Spel/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var spel = await _context.Spel.FindAsync(id);
-            _context.Spel.Remove(spel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool SpelExists(int id)
-        {
-            return _context.Spel.Any(e => e.ID == id);
+            return new RedirectResult($"/index.html?token={Base64UrlEncoder.Encode(spel.Speler1Token)}");
         }
     }
 }
