@@ -16,6 +16,6 @@ namespace ReversiMvcApp.Services
 
 		public Spel JoinSpel(Spel spel);
 
-		public void UpdateSpel(Spel spel, bool removeOldStones);
+		public void UpdateSpel(Spel spel, bool removeOldStones = true);
 	}
 }

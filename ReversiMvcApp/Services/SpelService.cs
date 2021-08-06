@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Reversi.Services.Authentication;
 using ReversiMvcApp.ClassHelpers;
 using ReversiMvcApp.Data;
 using ReversiMvcApp.Models;
+using ReversiMvcApp.Services.Authentication;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,7 +10,7 @@ using ReversiMvcApp.Data;
 using ReversiRestApi.Services;
 using ReversiMvcApp.ClassHelpers;
 using ReversiMvcApp.Services;
-using Reversi.Services.Authentication;
+using ReversiMvcApp.Services.Authentication;
 
 namespace ReversiMvcApp.Controllers
 {

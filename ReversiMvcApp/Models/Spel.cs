@@ -15,9 +15,12 @@ namespace ReversiMvcApp
 		public string Token { get; set; }
 		public string Speler1Token { get; set; }
 		public Speler Speler1 { get; set; }
+		public bool Speler1Beurt { get; set; }
 		public string Speler2Token { get; set; }
 		public Speler Speler2 { get; set; }
+		public bool Speler2Beurt { get; set; }
 		public ICollection<Stone> Stones { get; set; }
+		public DateTime LastUpdated { get; set; }
 		public Kleur AandeBeurt { get; set; }
 		public bool Cancelled { get; set; }
 

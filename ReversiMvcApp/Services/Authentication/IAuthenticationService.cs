@@ -1,7 +1,7 @@
 ﻿
 using ReversiMvcApp.Models;
 
-namespace Reversi.Services.Authentication
+namespace ReversiMvcApp.Services.Authentication
 {
 	public interface IAuthenticationService
 	{

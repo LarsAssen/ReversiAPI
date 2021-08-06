@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Reversi.Services.Authentication;
 using ReversiMvcApp;
 using ReversiMvcApp.Models;
 using ReversiMvcApp.Services;
+using ReversiMvcApp.Services.Authentication;
 using ReversiRestApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReversiRestApi.Controllers
+namespace ReversiMvcApp.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
@@ -50,6 +50,75 @@ namespace ReversiRestApi.Controllers
 			nieuwspel.Speler2Token = nieuwspel.Speler2Token == null ? null : Base64UrlEncoder.Encode(nieuwspel.Speler2Token);
 
 			return Ok(nieuwspel);
+		}
+
+		[HttpGet("LastUpdated/{token}", Name = "LastUpdated")]
+		public IActionResult LastUpdated(string token)
+		{
+			var spelofError = GetGameOrError(token);
+
+			if (!(spelofError is Spel))
+			{
+				return (IActionResult)spelofError;
+			}
+
+			Spel spel = (Spel)spelofError;
+
+
+			return Ok(spel.LastUpdated);
+		}
+
+		[HttpPost("Move/{token}", Name = "Move")]
+		public IActionResult Move(string token, [FromBody] Coordinate coordinate)
+		{
+			var spelOrError = GetGameOrError(token);
+
+			if (!(spelOrError is Spel))
+			{
+				return (IActionResult)spelOrError;
+			}
+
+			Spel spel = (Spel)spelOrError;
+			string decodedToken = Base64UrlEncoder.Decode(token);
+			bool isPlayer1 = spel.Speler1Token == decodedToken;
+			bool isTurn = (spel.Speler1Beurt && isPlayer1) || (!spel.Speler1Beurt && !isPlayer1);
+
+			if (!isTurn)
+			{
+				return StatusCode(401, "Not your turn.");
+			}
+
+			//List<Coordinate> stonesToFlip = spel.GetMove(coordinate, spel.User1Turn && isPlayer1);
+
+			////If there were more than 1 stone flipped, it's a valid turn.
+			//if (stonesToFlip.Count > 1)
+			//{
+			//	//Create new ones
+			//	spel.ApplyMove(stonesToFlip, isPlayer1);
+
+			//	//If opponent has no more moves possible
+			//	if (!spel.HasMovesPossible(!isPlayer1))
+			//	{
+			//		//If player has no more moves possible - game over, else, opponent skips.
+			//		if (!spel.HasMovesPossible(isPlayer1))
+			//		{
+			//			//If game finished with 0 score, it's a tie.
+			//			spel.Finished = true;
+			//		}
+			//	}
+			//	else
+			//	{
+			//		spel.User1Turn = !spel.User1Turn;
+			//	}
+
+			//	_spelService.UpdateSpel(spel);
+			//}
+			//else
+			//{
+			//	return StatusCode(409, "Incorrect move.");
+			//}
+
+			return Ok();
 		}
 
 		public Spel StartSpel(Spel spel)

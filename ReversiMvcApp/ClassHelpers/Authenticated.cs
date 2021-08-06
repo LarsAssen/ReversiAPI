@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using ReversiMvcApp.Enumerations;
 using ReversiMvcApp.Models;
+using ReversiMvcApp.Services.Spelers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace ReversiMvcApp.ClassHelpers
 
 			if (((Session)context.HttpContext.Items["session"]).TryGetValue("user", out int id))
 			{
-				Speler user = ServiceHelper.Get<IUserService>(context).GetUser(id);
+				Speler user = ServiceHelper.Get<ISpelerService>(context).GetUser(id);
 
 				if (user != null)
 				{

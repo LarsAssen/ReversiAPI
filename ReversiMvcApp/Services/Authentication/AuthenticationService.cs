@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using ReversiMvcApp.Models;
 
-namespace Reversi.Services.Authentication
+namespace ReversiMvcApp.Services.Authentication
 {
 	public class AuthenticationService : IAuthenticationService
 	{

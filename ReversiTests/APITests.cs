@@ -2,7 +2,6 @@
 using NUnit.Framework;
 using ReversiMvcApp;
 using ReversiMvcApp.Controllers;
-using ReversiRestApi.Controllers;
 using ReversiRestApi.Services;
 using System;
 using System.Collections.Generic;

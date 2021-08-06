@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ReversiMvcApp.Data;
+using ReversiMvcApp.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace ReversiMvcApp.Models
 	{
 		[Key]
 		public string GUID { get; set; }
+		public Role Role { get; set; }
 		public string Naam { get; set; }
 		//public string Email { get; set; }
 
