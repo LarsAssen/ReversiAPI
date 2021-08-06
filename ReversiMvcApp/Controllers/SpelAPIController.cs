@@ -88,65 +88,40 @@ namespace ReversiMvcApp.Controllers
 				return StatusCode(401, "Not your turn.");
 			}
 
-			//List<Coordinate> stonesToFlip = spel.GetMove(coordinate, spel.User1Turn && isPlayer1);
-
-			////If there were more than 1 stone flipped, it's a valid turn.
-			//if (stonesToFlip.Count > 1)
-			//{
-			//	//Create new ones
-			//	spel.ApplyMove(stonesToFlip, isPlayer1);
-
-			//	//If opponent has no more moves possible
-			//	if (!spel.HasMovesPossible(!isPlayer1))
-			//	{
-			//		//If player has no more moves possible - game over, else, opponent skips.
-			//		if (!spel.HasMovesPossible(isPlayer1))
-			//		{
-			//			//If game finished with 0 score, it's a tie.
-			//			spel.Finished = true;
-			//		}
-			//	}
-			//	else
-			//	{
-			//		spel.User1Turn = !spel.User1Turn;
-			//	}
-
-			//	_spelService.UpdateSpel(spel);
-			//}
-			//else
-			//{
-			//	return StatusCode(409, "Incorrect move.");
-			//}
+			if (!spel.Afgelopen())
+			{
+				spel.DoeZet(coordinate.X, coordinate.Y);
+			}
+			_spelService.UpdateSpel(spel);
 
 			return Ok();
 		}
 
-		public Spel StartSpel(Spel spel)
+		[HttpPost("Cancel/{token}", Name = "Cancel")]
+		public IActionResult Cancel(string token)
 		{
-			spel.Speler1.Kleur = Kleur.Zwart;
-			spel.Speler2.Kleur = Kleur.Wit;
+			var spelOrError = GetGameOrError(token);
 
-			var bord = spel.Bord;
+			if (!(spelOrError is Spel))
+			{
+				return (IActionResult)spelOrError;
+			}
 
-			spel.AandeBeurt = Kleur.Zwart;
-			return spel;
-		}
+			Spel spel = (Spel)spelOrError;
 
-		[HttpPost]
-		public Spel DoeZet(int x, int y, Kleur kleur, Spel spel)
-		{
-			spel.DoeZet(x, y);
-			return spel;
-		}
-
-		[HttpPost("GeefOp/{token}", Name = "GeefOp")]
-		public IActionResult GeefOp(Kleur speler, Spel spel)
-		{
 			if (spel.Afgelopen())
 			{
-				return StatusCode(409, "Spel is al afgelopen");
+				return StatusCode(409, "Game is already finished");
 			}
+			else if (spel.Cancelled)
+			{
+				return StatusCode(409, "Game is already cancelled");
+			}
+
 			spel.Cancelled = true;
+			_spelService.UpdateSpel(spel);
+
+
 			return Ok();
 		}
 
