@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Reversi.Services.Authentication;
 using ReversiMvcApp;
+using ReversiMvcApp.Models;
 using ReversiMvcApp.Services;
 using ReversiRestApi.Services;
 using System;
@@ -14,11 +17,15 @@ namespace ReversiRestApi.Controllers
 	[ApiController]
 	public class SpelAPIController : ControllerBase
 	{
-		private ISpelService _spelService;
+		private readonly ISpelService _spelService;
+		private readonly IAuthenticationService _authService;
 
-		public SpelAPIController(ISpelService spelService)
+
+
+		public SpelAPIController(ISpelService spelService, IAuthenticationService authSevice)
 		{
 			_spelService = spelService;
+			_authService = authSevice;
 		}
 
 		[HttpGet]
@@ -28,10 +35,21 @@ namespace ReversiRestApi.Controllers
 		}
 
 
-		public Spel GetSpel(string token)
+		[HttpGet("{token}", Name = "GetSpel")]
+		public IActionResult GetSpel(string token)
 		{
-			Spel spel = _spelService.GetSpel(token);
-			return spel;
+			var spel = GetGameOrError(token);
+
+			if(!(spel is Spel))
+			{
+				return (IActionResult)spel;
+			}
+
+			Spel nieuwspel = (Spel)spel;
+			nieuwspel.Speler1Token = nieuwspel.Speler1Token == null ? null : Base64UrlEncoder.Encode(nieuwspel.Speler1Token);
+			nieuwspel.Speler2Token = nieuwspel.Speler2Token == null ? null : Base64UrlEncoder.Encode(nieuwspel.Speler2Token);
+
+			return Ok(nieuwspel);
 		}
 
 		public Spel StartSpel(Spel spel)
@@ -61,6 +79,35 @@ namespace ReversiRestApi.Controllers
 			}
 			spel.Cancelled = true;
 			return Ok();
+		}
+
+		private object GetGameOrError(string token)
+		{
+			string decodedToken = "";
+
+			try
+			{
+				decodedToken = Base64UrlEncoder.Decode(token);
+			}
+			catch
+			{
+				return StatusCode(404, "Game not found");
+			}
+
+			Speler authenticatedUser = _authService.Get();
+			Spel game = _spelService.GetSpel(decodedToken);
+
+			if (game == null)
+			{
+				return StatusCode(404, "Game not found");
+			}
+
+			if (authenticatedUser == null || (game.Speler1Token == decodedToken && game.Speler1.Id != authenticatedUser.Id) || (game.Speler2Token == decodedToken && game.Speler2.Id != authenticatedUser.Id))
+			{
+				return StatusCode(401, "You do not have access to this game.");
+			}
+
+			return game;
 		}
 	}
 }
